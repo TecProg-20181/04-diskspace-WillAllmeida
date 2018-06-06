@@ -52,7 +52,9 @@ def bytes_to_readable(blocks):
     labels = ['B', 'Kb', 'Mb', 'Gb', 'Tb']
     return '{:.2f}{}'.format(round(byts/(1024.0**count), 2), labels[count])
 
-
+@contract(largest_size='int,>=0', total_size='int,>=0', depth='int,>=0',
+          path='string', file_tree='dict(str: *)', file_tree_node='dict(str: *)',
+          returns='None')
 def print_tree(file_tree, file_tree_node, path, largest_size, total_size,
                depth=0):
     percentage = int(file_tree_node['size'] / float(total_size) * 100)
@@ -72,7 +74,7 @@ def print_tree(file_tree, file_tree_node, path, largest_size, total_size,
             print_tree(file_tree, file_tree[child], child, largest_size,
                        total_size, depth + 1)
 
-
+contract(depth='int,>=0', order='bool', directory='string', returns='int')
 def show_space_list(directory='.', depth=-1, order=True):
     abs_directory = os.path.abspath(directory)
 
